@@ -31,6 +31,7 @@ const ConnectBtn = () => {
     </div>
   );
   const [vestingInfo, setVestingInfo] = useState({});
+  const [purchased, setPurchased] = useState(false);
 
   useEffect(() => {
     const func = async () => {
@@ -38,10 +39,22 @@ const ConnectBtn = () => {
       setVestingInfo(vestInfo);
       const lastClaimedDate = new Date(Number(vestInfo.startTime) * 1000);
       const monthOfClaim = lastClaimedDate.getMonth();
+      if (
+        Number(vestInfo.reservedMMT) +
+          Number(vestInfo.claimedToken) +
+          Number(vestInfo.vestedAmount) >
+        0
+      ) {
+        setPurchased(true);
+      }
       setVestingInfoDisplay(
         <div className="pr-12 pl-16 w-[500px] justify-stretch text-xl">
           <p className="my-2">
-            - Total tokens purchased: {Number(vestInfo.reservedMMT)} $MMT.
+            - Total tokens purchased:{' '}
+            {Number(vestInfo.reservedMMT) +
+              Number(vestInfo.claimedToken) +
+              Number(vestInfo.vestedAmount)}{' '}
+            $MMT.
           </p>
           <p className="my-2">
             - Claimable Tokens: {Number(vestInfo.claimableToken)} $MMT.
@@ -50,8 +63,7 @@ const ConnectBtn = () => {
             - Claimed Tokens: {Number(vestInfo.claimedToken)} $MMT.
           </p>
           <p className="my-2">
-            - Unvested Tokens:{' '}
-            {Number(vestInfo.reservedMMT) - Number(vestInfo.vestedAmount)} $MMT.
+            - Unvested Tokens: {Number(vestInfo.reservedMMT)} $MMT.
           </p>
           <p className="my-2">
             - Next token claim date: {lastClaimedDate.getUTCDate()}{' '}
@@ -173,7 +185,11 @@ const ConnectBtn = () => {
                     )}
                   </div>
                   {vestingInfoDisplay}
-                  <div className="flex justify-center item-center w-full my-4">
+                  <div
+                    className={`${
+                      purchased ? 'flex' : 'hidden'
+                    } justify-center item-center w-full my-4`}
+                  >
                     <button
                       onClick={handleClaimToken}
                       type="button"

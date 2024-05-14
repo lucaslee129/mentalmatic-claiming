@@ -38,19 +38,20 @@ const ClaimToken = async (vestingAmount: any) => {
 
       Notiflix.Notify.success('Vested MMT Transfer Success');
     } catch (error: any) {
-      const errorMessage = error.message;
-      const rejectError = 'User rejected the request.';
-      const requireError = 'reverted with the following reason';
-      if (errorMessage.includes(rejectError)) {
-        Notiflix.Notify.failure('User rejected the request.');
-      } else if (errorMessage.includes(requireError)) {
-        const errMsg = error.message.match(
-          /reverted with the following reason:\n(.*?)\n/
-        )[1];
-        Notiflix.Notify.failure(errMsg);
-      } else {
-        console.log(error);
-      }
+      console.log(error);
+      // const errorMessage = error.message;
+      // const rejectError = 'User rejected the request.';
+      // const requireError = 'reverted with the following reason';
+      // if (errorMessage.includes(rejectError)) {
+      //   Notiflix.Notify.failure('User rejected the request.');
+      // } else if (errorMessage.includes(requireError)) {
+      //   const errMsg = error.message.match(
+      //     /reverted with the following reason:\n(.*?)\n/
+      //   )[1];
+      //   Notiflix.Notify.failure(errMsg);
+      // } else {
+      //   console.log(error);
+      // }
     }
   }
 };
